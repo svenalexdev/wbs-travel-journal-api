@@ -26,11 +26,10 @@ wbs-travel-journal-api/
 |- controllers/ => Our controller functions per resource
 |- db/
 |   \_ index.js => Database connection with Mongoose
-|- joi/
-|   \_ schemas.js => JOI schemas for data validations
 |- middlewares/ => custom middlewares
 |- models/ => Our models per resource
 |- routers/ => Our routers per resource
-|- utils/ => Utility functions
+|- zod/
+|   \_ schemas.js => Zod schemas for data validations
 \_ index.js
 ```
