@@ -1,20 +1,20 @@
-import Joi from 'joi';
+import { z } from 'zod/v4';
 
-export const userSchema = Joi.object({
-  firstName: Joi.string().required(),
-  lastName: Joi.string().required(),
-  email: Joi.string().required(),
-  password: Joi.string().alphanum().min(8).max(12).required()
+export const userSchema = z.object({
+    firstName: z.string(),
+    lastName: z.string(),
+    email: z.string(),
+    password: z.string().min(8).max(12),
 });
 
-export const signInSchema = Joi.object({
-  email: Joi.string().required(),
-  password: Joi.string().alphanum().min(8).max(12).required()
+export const signInSchema = z.object({
+    email: z.string(),
+    password: z.string().min(8).max(12),
 });
 
-export const postSchema = Joi.object({
-  title: Joi.string().required(),
-  image: Joi.string().required(),
-  content: Joi.string().required(),
-  author: Joi.string()
+export const postSchema = z.object({
+    title: z.string(),
+    image: z.string(),
+    content: z.string(),
+    author: z.string(),
 });
