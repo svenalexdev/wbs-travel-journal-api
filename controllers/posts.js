@@ -27,7 +27,6 @@ export const updatePost = async (req, res) => {
     body,
     params: { id }
   } = req;
-  console.log(body);
   if (!isValidObjectId(id)) throw new Error('Invalid id', { cause: 400 });
   const updatedPost = await Post.findByIdAndUpdate(id, body, { new: true }).populate('author');
   if (!updatedPost) throw new Error(`Post with id of ${id} doesn't exist`, { cause: 404 });
