@@ -8,7 +8,6 @@ const validateZod = zodSchema => (req, res, next) => {
     req.sanitizedBody = data;
     next();
   }
-  // return error ? next(new Error(z.prettifyError(error), { cause: 400 })) : next();
 };
 
 export default validateZod;
