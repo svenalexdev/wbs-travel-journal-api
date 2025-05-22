@@ -7,8 +7,8 @@ export const getAllPosts = async (req, res) => {
 };
 
 export const createPost = async (req, res) => {
-  const { body } = req;
-  const newPost = await (await Post.create({ ...body })).populate('author');
+  const { sanitizedBody } = req;
+  const newPost = await (await Post.create(sanitizedBody)).populate('author');
   res.status(201).json(newPost);
 };
 
@@ -24,11 +24,11 @@ export const getSinglePost = async (req, res) => {
 
 export const updatePost = async (req, res) => {
   const {
-    body,
+    sanitizedBody,
     params: { id }
   } = req;
   if (!isValidObjectId(id)) throw new Error('Invalid id', { cause: 400 });
-  const updatedPost = await Post.findByIdAndUpdate(id, body, { new: true }).populate('author');
+  const updatedPost = await Post.findByIdAndUpdate(id, sanitizedBody, { new: true }).populate('author');
   if (!updatedPost) throw new Error(`Post with id of ${id} doesn't exist`, { cause: 404 });
   res.json(updatedPost);
 };
