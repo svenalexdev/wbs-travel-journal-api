@@ -6,10 +6,20 @@ export const getAllPosts = async (req, res) => {
   res.json(posts);
 };
 
+// export const createPost = async (req, res) => {
+//   const { sanitizedBody } = req;
+//   const newPost = await (await Post.create(sanitizedBody)).populate('author');
+//   res.status(201).json(newPost);
+// };
+
 export const createPost = async (req, res) => {
-  const { sanitizedBody } = req;
-  const newPost = await (await Post.create(sanitizedBody)).populate('author');
-  res.status(201).json(newPost);
+  const { sanitizedBody, userId } = req;
+
+  const newPost = await Post.create({ ...sanitizedBody, author: userId });
+
+  const populatedPost = await newPost.populate('author');
+
+  res.status(201).json(populatedPost);
 };
 
 export const getSinglePost = async (req, res) => {
