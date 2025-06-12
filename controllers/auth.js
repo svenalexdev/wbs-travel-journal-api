@@ -48,10 +48,19 @@ const signin = async (req, res) => {
   const token = jwt.sign(payload, secret, tokenOptions);
 
   res.cookie('token', token, cookieOptions);
-
   res.status(201).json({ success: 'Welcome back' });
 };
 
 const me = async (req, res) => {
-    
+  const { userId } = req;
+
+  if (!isValidObjectId(userId)) throw new Error('Invalid id', { cause: 400 });
+
+  const user = await User.findById(userId).lean();
+
+  if (!user) throw new Error('User not found', { cause: 404 });
+
+  res.json(user);
 };
+
+export { signup, signin, me };

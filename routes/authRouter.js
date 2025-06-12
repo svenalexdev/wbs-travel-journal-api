@@ -1,10 +1,13 @@
 import { Router } from 'express';
-import validateZod from '../middlewares/validateZod';
-import { userSchema } from '../zod/schemas';
-import { signInSchema } from '../zod/schemas';
+import validateBody from '../middlewares/validateBody.js';
+import verifyToken from '../middlewares/verifyToken.js';
+import { userSchema, signInSchema } from '../zod/schemas.js';
+import { me, signin, signup } from '../controllers/auth.js';
 
 const authRouter = Router();
 
-authRouter.route('/signup').post(validateZod(userSchema));
-authRouter.route('/signin').post(validateZod(signInSchema));
-authRouter.route('/me').get();
+authRouter.route('/signup').post(validateBody(userSchema), signup);
+authRouter.route('/signin').post(validateBody(signInSchema), signin);
+authRouter.route('/me').get(verifyToken, me);
+
+export default authRouter;
