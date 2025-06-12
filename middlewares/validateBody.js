@@ -10,4 +10,4 @@ const validateBody = zodSchema => (req, res, next) => {
   }
 };
 
-export default validateZod;
+export default validateBody;

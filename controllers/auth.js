@@ -1,7 +1,7 @@
 import { isValidObjectId } from 'mongoose';
 import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../models/User';
+import User from '../models/User.js';
 
 const secret = process.env.JWT_SECRET;
 const tokenOptions = { expiresIn: '7d' };
