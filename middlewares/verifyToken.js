@@ -1,10 +1,12 @@
 import jwt from 'jsonwebtoken';
 
 const verifyToken = (req, res, next) => {
+  //   console.log(req.headers.cookie);
   if (!req.headers.cookie) {
     next(new Error('Unauthorized, please sign in', { cause: 401 }));
+    // in express 5 is same as openly throwing error
+    // throw Error('Unauthorized, please sign in', { cause: 401 });
   }
-  // console.log(req.headers.cookie)
 
   const cookies = req.headers.cookie?.split('; ');
   //   console.log(cookies);
@@ -22,8 +24,11 @@ const verifyToken = (req, res, next) => {
     next(new Error('Unauthorized, please sign in', { cause: 401 }));
   }
 
+  // Verify the token
   const { userId } = jwt.verify(token, process.env.JWT_SECRET);
-  //   console.log(decoded)
+  //   console.log(userId)
+
+  // add userId property to the request object
   req.userId = userId;
   next();
 };

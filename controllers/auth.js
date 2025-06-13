@@ -3,10 +3,11 @@ import * as bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
-const secret = process.env.JWT_SECRET;
-const tokenOptions = { expiresIn: '7d' };
+const secret = process.env.JWT_SECRET; // This will come from the server environment
+const tokenOptions = { expiresIn: '7d' }; // Limit the duration
 
 const isProduction = process.env.NODE_ENV === 'production';
+
 const cookieOptions = {
   httpOnly: true,
   sameSite: isProduction ? 'None' : 'Lax',
@@ -24,12 +25,12 @@ const signup = async (req, res) => {
 
   const user = await User.create({ ...req.sanitizedBody, password: hashedPassword });
 
-  const payload = { userId: user._id };
+  const payload = { userId: user._id }; // Data we want to enclose in the JWT
 
   const token = jwt.sign(payload, secret, tokenOptions);
 
   res.cookie('token', token, cookieOptions);
-  res.status(201).json({ success: 'Welcome' });
+  res.status(201).json({ message: 'Welcome' });
 };
 
 const signin = async (req, res) => {
@@ -48,7 +49,7 @@ const signin = async (req, res) => {
   const token = jwt.sign(payload, secret, tokenOptions);
 
   res.cookie('token', token, cookieOptions);
-  res.status(201).json({ success: 'Welcome back' });
+  res.status(201).json({ message: 'Welcome back' });
 };
 
 const me = async (req, res) => {
@@ -56,6 +57,7 @@ const me = async (req, res) => {
 
   if (!isValidObjectId(userId)) throw new Error('Invalid id', { cause: 400 });
 
+  //find user with that id
   const user = await User.findById(userId).lean();
 
   if (!user) throw new Error('User not found', { cause: 404 });
@@ -64,15 +66,9 @@ const me = async (req, res) => {
 };
 
 const signout = async (req, res) => {
-  // res.cookie('token', '', {
-  //   ...cookieOptions,
-  //   expires: new Date(0)
-  // });
-
-  // res.status(200).json({ success: 'Successfully signed out' });
   res.clearCookie('token');
 
   res.json({ message: 'You have signed out' });
 };
 
-export { signup, signin, me, signout };
+export { me, signup, signin, signout };
