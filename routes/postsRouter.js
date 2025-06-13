@@ -6,12 +6,12 @@ import verifyToken from '../middlewares/verifyToken.js';
 
 const postsRouter = Router();
 
-postsRouter.route('/').get(getAllPosts).post(validateBody(postSchema), verifyToken, createPost);
+postsRouter.route('/').get(getAllPosts).post(verifyToken, validateBody(postSchema), createPost);
 
 postsRouter
   .route('/:id')
   .get(getSinglePost)
-  .put(validateBody(postSchema), verifyToken, updatePost)
+  .put(verifyToken, validateBody(postSchema), updatePost)
   .delete(verifyToken, deletePost);
 
 export default postsRouter;

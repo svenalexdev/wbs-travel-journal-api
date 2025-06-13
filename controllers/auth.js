@@ -64,12 +64,15 @@ const me = async (req, res) => {
 };
 
 const signout = async (req, res) => {
-  res.cookie('token', '', {
-    ...cookieOptions,
-    expires: new Date(0)
-  });
+  // res.cookie('token', '', {
+  //   ...cookieOptions,
+  //   expires: new Date(0)
+  // });
 
-  res.status(200).json({ success: 'Successfully signed out' });
+  // res.status(200).json({ success: 'Successfully signed out' });
+  res.clearCookie('token');
+
+  res.json({ message: 'You have signed out' });
 };
 
 export { signup, signin, me, signout };
